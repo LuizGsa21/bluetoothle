@@ -41,7 +41,7 @@ namespace Plugin.BluetoothLE
             {
                 var handler = new EventHandler<GattCharacteristicEventArgs>((sender, args) =>
                 {
-                    if (this.Equals(args.Characteristic))
+                    if (this.NativeEquals(args))
                     {
                         Log.Write("Incoming Characteristic Write Event - " + args.Characteristic.Uuid);
 
@@ -83,7 +83,7 @@ namespace Plugin.BluetoothLE
             {
                 var handler = new EventHandler<GattCharacteristicEventArgs>((sender, args) =>
                 {
-                    if (this.Equals(args.Characteristic))
+                    if (this.NativeEquals(args))
                     {
                         if (!args.IsSuccessful)
                         {
@@ -116,7 +116,7 @@ namespace Plugin.BluetoothLE
             {
                 var handler = new EventHandler<GattCharacteristicEventArgs>((sender, args) =>
                 {
-                    if (this.Equals(args.Characteristic))
+                    if (this.NativeEquals(args))
                     {
                         if (!args.IsSuccessful)
                         {
@@ -212,7 +212,7 @@ namespace Plugin.BluetoothLE
             if (other == null)
                 return false;
 
-            if (!this.native.Equals(other.native))
+            if (!Object.ReferenceEquals(this, other))
                 return false;
 
             return true;
@@ -220,10 +220,10 @@ namespace Plugin.BluetoothLE
 
 
         public override int GetHashCode() => this.native.GetHashCode();
-        public override string ToString() => this.Uuid.ToString();
+        public override string ToString() => $"Characteristic: {this.Uuid}";
 
 
-        bool Equals(GattCharacteristicEventArgs args)
+        bool NativeEquals(GattCharacteristicEventArgs args)
         {
             if (this.native.Equals(args.Characteristic))
                 return true;

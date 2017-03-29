@@ -27,7 +27,7 @@ namespace Plugin.BluetoothLE
             {
                 var handler = new EventHandler<GattDescriptorEventArgs>((sender, args) =>
                 {
-                    if (this.Equals(args.Descriptor))
+                    if (this.NativeEquals(args))
                     {
                         if (!args.IsSuccessful)
                         {
@@ -84,7 +84,7 @@ namespace Plugin.BluetoothLE
         }
 
 
-        bool Equals(GattDescriptorEventArgs args)
+        bool NativeEquals(GattDescriptorEventArgs args)
         {
             if (this.native.Equals(args.Descriptor))
                 return true;
@@ -111,7 +111,7 @@ namespace Plugin.BluetoothLE
             if (other == null)
                 return false;
 
-            if (!this.native.Equals(other.native))
+            if (!Object.ReferenceEquals(this, other))
                 return false;
 
             return true;
@@ -119,7 +119,7 @@ namespace Plugin.BluetoothLE
 
 
         public override int GetHashCode() => this.native.GetHashCode();
-        public override string ToString() => this.Uuid.ToString();
+        public override string ToString() => $"Descriptor: {this.Uuid}";
     }
 }
 
